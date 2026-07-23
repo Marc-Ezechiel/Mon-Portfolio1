@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HD SCORE Web Studio — Ezechiel Koffi, Développeur Front-End</title>
+<meta name="description" content="Sites web codés, testés et mis en ligne — entièrement depuis un iPhone à Yopougon, Abidjan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12213D;
+    --ink-2:#1B2E52;
+    --teal:#2FA98C;
+    --sand:#F3EEE4;
+    --paper:#FCFBF8;
+    --slate:#5B6472;
+    --coral:#E8785A;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(252,251,248,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(18,33,61,0.08);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.05rem; letter-spacing:0.02em;}
+  .brand span{color:var(--teal);}
+  .navlinks{display:none; gap:28px; font-size:0.92rem; font-weight:500; color:var(--ink);}
+  .navlinks a:hover{color:var(--teal);}
+  @media(min-width:760px){ .navlinks{display:flex;} }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 62%, #234269 100%);
+    color:var(--paper);
+    padding:64px 0 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .wrap{display:grid; gap:44px;}
+  @media(min-width:860px){ .hero .wrap{grid-template-columns:1.1fr 0.9fr; align-items:center;} }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; letter-spacing:0.14em;
+    color:var(--teal); text-transform:uppercase; margin-bottom:18px; display:inline-flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px rgba(47,169,140,0.2);}
+  .hero h1{
+    font-size:clamp(2.1rem, 5vw, 3.1rem);
+    line-height:1.12;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{font-style:normal; color:var(--teal);}
+  .hero p.lead{
+    margin-top:20px; font-size:1.05rem; line-height:1.6; color:#C9D3E4; max-width:46ch;
+  }
+  .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:32px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:999px; font-weight:600; font-size:0.94rem;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary{background:var(--teal); color:#08221C;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 22px rgba(47,169,140,0.35);}
+  .btn-ghost{border:1px solid rgba(252,251,248,0.35); color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+  /* ---------- SIGNATURE: phone -> push -> ship ---------- */
+  .rig{position:relative; display:flex; justify-content:center;}
+  .phone{
+    width:220px; height:440px; border-radius:32px;
+    background:#0B1626;
+    border:6px solid #223255;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.03);
+    padding:18px 14px; position:relative;
+  }
+  .phone::before{
+    content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
+    width:56px; height:6px; border-radius:4px; background:#223255;
+  }
+  .phone-screen{
+    margin-top:16px; height:100%;
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem; line-height:1.55; color:#9BE8D3;
+    white-space:pre-wrap; overflow:hidden;
+  }
+  .phone-screen .dim{color:#5C7A94;}
+  .phone-screen .tag{color:#E8785A;}
+  .caret{display:inline-block; width:6px; height:12px; background:#2FA98C; vertical-align:middle; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .status-chip{
+    position:absolute; bottom:-16px; left:50%; transform:translateX(-50%);
+    background:var(--paper); color:var(--ink); font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem; padding:7px 14px; border-radius:999px; box-shadow:0 10px 24px rgba(0,0,0,0.25);
+    display:flex; align-items:center; gap:7px; white-space:nowrap;
+  }
+  .status-chip .dot{width:7px; height:7px; border-radius:50%; background:var(--teal);}
+
+  /* ---------- WORKFLOW STRIP ---------- */
+  .workflow{background:var(--sand); padding:56px 0 64px;}
+  .workflow h2{font-size:1.5rem; margin-bottom:8px;}
+  .workflow .sub{color:var(--slate); font-size:0.95rem; margin-bottom:36px; max-width:56ch;}
+  .steps{display:grid; gap:18px;}
+  @media(min-width:760px){ .steps{grid-template-columns:repeat(3,1fr);} }
+  .step{
+    background:var(--paper); border-radius:var(--radius); padding:24px 22px;
+    border:1px solid rgba(18,33,61,0.07); position:relative;
+  }
+  .step .num{
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--teal); font-weight:500;
+  }
+  .step h3{font-size:1.08rem; margin:10px 0 8px;}
+  .step p{font-size:0.9rem; color:var(--slate); line-height:1.55;}
+  .step-arrow{
+    display:none; position:absolute; right:-27px; top:50%; transform:translateY(-50%);
+    color:rgba(18,33,61,0.25); font-size:1.3rem;
+  }
+  @media(min-width:760px){ .step-arrow{display:block;} .step:last-child .step-arrow{display:none;} }
+
+  /* ---------- PROJECTS ---------- */
+  section.projects{padding:72px 0;}
+  .section-head{margin-bottom:36px;}
+  .section-head .eyebrow{color:var(--teal); background:none;}
+  .section-head h2{font-size:1.7rem;}
+  .grid-projects{display:grid; gap:22px;}
+  @media(min-width:720px){ .grid-projects{grid-template-columns:repeat(2,1fr);} }
+  .card{
+    border:1px solid rgba(18,33,61,0.09); border-radius:var(--radius);
+    padding:26px; display:flex; flex-direction:column; gap:14px;
+    transition:box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover{box-shadow:0 16px 34px -18px rgba(18,33,61,0.25); transform:translateY(-3px);}
+  .card .thumb{
+    height:120px; border-radius:10px;
+    background:linear-gradient(135deg, var(--ink), var(--teal));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; color:rgba(255,255,255,0.92); font-size:1rem; letter-spacing:0.02em;
+  }
+  .card h3{font-size:1.15rem;}
+  .card p{font-size:0.92rem; color:var(--slate); line-height:1.55;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:0.72rem; background:var(--sand); color:var(--ink);
+    padding:5px 10px; border-radius:6px;
+  }
+  .card-link{font-size:0.88rem; font-weight:600; color:var(--teal); display:inline-flex; align-items:center; gap:6px; margin-top:auto;}
+  .card-link svg{width:14px; height:14px;}
+
+  /* ---------- SKILLS ---------- */
+  section.skills{background:var(--ink); color:var(--paper); padding:64px 0;}
+  section.skills .section-head h2{color:var(--paper);}
+  section.skills .section-head .eyebrow{color:var(--teal);}
+  .chips{display:flex; flex-wrap:wrap; gap:12px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace; font-size:0.82rem;
+    border:1px solid rgba(252,251,248,0.18); padding:9px 16px; border-radius:999px; color:#DCE4F0;
+  }
+
+  /* ---------- CONTACT ---------- */
+  section.contact{
+    padding:76px 0 88px; text-align:center;
+    background:linear-gradient(180deg, var(--paper), var(--sand));
+  }
+  section.contact h2{font-size:1.8rem; margin-bottom:14px;}
+  section.contact p{color:var(--slate); max-width:50ch; margin:0 auto 32px; line-height:1.6;}
+  .contact-row{display:flex; flex-wrap:wrap; gap:14px; justify-content:center;}
+  .btn-dark{background:var(--ink); color:var(--paper);}
+  .btn-dark:hover{background:var(--ink-2);}
+  .btn-outline{border:1px solid rgba(18,33,61,0.25); color:var(--ink);}
+  .btn-outline:hover{border-color:var(--teal); color:var(--teal);}
+
+  footer{padding:28px 0; text-align:center; font-size:0.82rem; color:var(--slate); border-top:1px solid rgba(18,33,61,0.08);}
+  footer .mono{color:var(--teal);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">HD SCORE <span>Web Studio</span></div>
+    <div class="navlinks">
+      <a href="#projets">Projets</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Yopougon, Abidjan · Côte d'Ivoire</div>
+      <h1>Des sites web codés, testés et mis en ligne — <em>entièrement depuis un iPhone.</em></h1>
+      <p class="lead">Je suis Ezechiel, développeur front-end freelance et fondateur de HD SCORE Web Studio. Je conçois des sites rapides et responsives pour les écoles et petites entreprises, du premier croquis jusqu'à la mise en ligne — sans ordinateur, juste un téléphone et une bonne discipline.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projets">Voir les projets</a>
+        <a class="btn btn-ghost" href="#contact">Me contacter</a>
+      </div>
+    </div>
+
+    <div class="rig">
+      <div class="phone">
+        <div class="phone-screen mono" id="typewriter"></div>
+        <div class="status-chip"><span class="dot"></span> Déployé sur Netlify</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="workflow">
+  <div class="wrap">
+    <h2>Un workflow 100% mobile</h2>
+    <p class="sub">Pas de machine, pas d'excuse. Chaque projet suit le même pipeline, du code à la mise en ligne.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01 — Coder</div>
+        <h3>Spck Editor, sur iPhone</h3>
+        <p>HTML, CSS et JavaScript écrits directement dans l'éditeur mobile, projet par projet, fichier par fichier.</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step">
+        <div class="num">02 — Versionner</div>
+        <h3>Git → GitHub</h3>
+        <p>Chaque avancée est commitée et poussée sur GitHub, pour garder un historique propre et récupérable.</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step">
+        <div class="num">03 — Livrer</div>
+        <h3>Déploiement Netlify</h3>
+        <p>Connexion du repo à Netlify : le site est en ligne, testé sur mobile et prêt à être partagé au client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projets">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">Réalisations</div>
+      <h2>Projets récents</h2>
+    </div>
+    <div class="grid-projects">
+
+      <div class="card">
+        <div class="thumb">Institut LKM</div>
+        <h3>Site vitrine — Institut LKM</h3>
+        <p>Site complet pour un établissement scolaire (maternelle à lycée) : présentation des classes et tarifs, formulaire d'inscription avec envoi de documents, recherche dynamique et section contact.</p>
+        <div class="tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Responsive</span><span class="tag">Formulaire</span></div>
+        <a class="card-link" href="#" target="_blank" rel="noopener">
+          Voir le site en ligne
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="thumb">HD SCORE Studio</div>
+        <h3>Identité visuelle — HD SCORE Web Studio</h3>
+        <p>Création de l'identité de marque : logo, affiche promotionnelle et déclinaisons Canva, dans une charte navy &amp; teal cohérente pour tous les supports.</p>
+        <div class="tags"><span class="tag">Branding</span><span class="tag">Canva</span><span class="tag">Print/PDF</span></div>
+        <a class="card-link" href="#" target="_blank" rel="noopener">
+          Voir les visuels
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Task Manager</div>
+        <h3>Application — Gestionnaire de tâches</h3>
+        <p>App de to-do list avec sauvegarde locale (localStorage), thème sombre et filtrage par catégorie. Projet personnel pour approfondir le JavaScript.</p>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">localStorage</span><span class="tag">UI sombre</span></div>
+        <a class="card-link" href="#" target="_blank" rel="noopener">
+          Voir le code
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Prochain projet</div>
+        <h3>Votre site, ici.</h3>
+        <p>Vous avez une école, une boutique ou un service à présenter en ligne ? Discutons de votre projet et voyons comment le mettre en ligne rapidement.</p>
+        <div class="tags"><span class="tag">Disponible</span></div>
+        <a class="card-link" href="#contact">
+          Démarrer un projet
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="skills" id="competences">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">Boîte à outils</div>
+      <h2>Compétences</h2>
+    </div>
+    <div class="chips">
+      <span class="chip">HTML5</span>
+      <span class="chip">CSS3 (Flexbox / Grid)</span>
+      <span class="chip">JavaScript</span>
+      <span class="chip">Git &amp; GitHub</span>
+      <span class="chip">Netlify</span>
+      <span class="chip">Responsive design</span>
+      <span class="chip">Canva</span>
+      <span class="chip">Web3Forms</span>
+      <span class="chip">Python (bases)</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Discutons de votre projet</h2>
+    <p>Que ce soit un site vitrine, un formulaire d'inscription ou une refonte, je réponds rapidement et je livre vite.</p>
+    <div class="contact-row">
+      <a class="btn btn-dark" href="mailto:hdscorewebstudio@gmail.com">Écrire un email</a>
+      <a class="btn btn-outline" href="https://fiverr.com/" target="_blank" rel="noopener">Fiverr</a>
+      <a class="btn btn-outline" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    &copy; <span id="year"></span> HD SCORE Web Studio — codé et déployé depuis <span class="mono">un iPhone à Yopougon</span>.
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const lines = [
+    { t: '<span class="dim">// index.html</span>', d: 40 },
+    { t: '<span class="tag">&lt;section</span> class="hero"<span class="tag">&gt;</span>', d: 55 },
+    { t: '  &lt;h1&gt;Institut LKM&lt;/h1&gt;', d: 55 },
+    { t: '  &lt;form id="inscription"&gt;', d: 55 },
+    { t: '    ...', d: 90 },
+    { t: '  &lt;/form&gt;', d: 55 },
+    { t: '<span class="tag">&lt;/section&gt;</span>', d: 55 },
+    { t: '', d: 40 },
+    { t: '<span class="dim">$ git add .</span>', d: 70 },
+    { t: '<span class="dim">$ git commit -m "site v1"</span>', d: 70 },
+    { t: '<span class="dim">$ git push origin main</span>', d: 90 },
+  ];
+
+  const el = document.getElementById('typewriter');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  async function type(){
+    if(reduceMotion){
+      el.innerHTML = lines.map(l => l.t).join('\n');
+      return;
+    }
+    let out = '';
+    for(const line of lines){
+      let chars = line.t.replace(/<[^>]+>/g,'').length;
+      let built = '';
+      // simple char-by-char reveal ignoring html tags for timing simplicity
+      out += '\n';
+      el.innerHTML = out + '<span class="caret"></span>';
+      await new Promise(r => setTimeout(r, line.d));
+      out = out.slice(0, -1) + line.t;
+      el.innerHTML = out;
+    }
+    el.innerHTML += '\n<span class="caret"></span>';
+    setTimeout(() => { el.innerHTML = lines.map(l => l.t).join('\n'); }, 600);
+  }
+  type();
+</script>
+
+</body>
+</html>
